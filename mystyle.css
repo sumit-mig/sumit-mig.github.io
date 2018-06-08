@@ -1,0 +1,17 @@
+body {
+    background-color: lightblue;
+      //background-image: url("paper.gif");
+}
+
+h1 {
+    color: navy;
+    margin-left: 20px;
+}
+#para1 {
+	width: 200px;
+	text-align: center;
+	background-color:  green;
+	 border: 1px solid black;
+    //margin: 25px 50px 75px;
+    margin: auto;
+}
