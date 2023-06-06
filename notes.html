@@ -100,9 +100,47 @@
 </ul>
 
 <h3> Frequency domain feature pipeline </h3>
+<h3> dfdf </h3>
     <ul>
         <li> Audio , ADC,sampling and quatization, </li>
         <li> Spectral leakage </li>
+        <ul>
+            <li> Processed signal is not an integer number of period </li>
+            <li> End points are discontinous </li>
+            <li> Discontinuties appear as high frequency components not present in the signal </li>
+            <li> How to get over with it : Windowing  </li:>
+                <ul>
+                    <li>Apply windowing function to each frame</li>
+                    <li> Eliminating samples from both ends of a frame </li>
+                    <li> Hann Window: \( w(k) = 0.5 \bigg( 1 - \cos \big(\frac{2 \pi k }{K -1 } \big) \bigg)  ; k = 1....k \) </li>
+                    <li> \( s_k (k) = s(k) . w(k) , k = 1 ... k\) </li>
+                    <li> So this makes signal zero near ends and we loose the signal </li>
+                </ul>
+        </ul>
     </ul>
+<h3>Time domain audio features </h3>
+    <ul>
+        <li>Amplitude envelope (AE)</li>
+        <ul>
+            <li> max amplitude value of all samples in a frame </li>
+            <li> \( AE_t = \max_{k = t.K}^{(t+1).K -1 }s(k) \) </li>
+            <li> Calculate for all the envelopes/frames</li> 
+            <li> It gives rough idea of loudness, but sensitive to outliers.</li>
+            <li> Use case: onset detection, music genre classification.</li>
+        </ul>
+        <li>Root mean square energy (RMS)</li>
+        <ul>
+            <li>RMS of all samples of a frame. </li>
+            <li> \( RMS_t = \sqrt {\frac{1}{K} \sum_{k = t.K}^{(t+1)K -1} s(k)^2} \) </li>
+            <li> Indicator of loudness, less sensitive to outliers. </li>
+            <li> applications: audio segmentation, music genre classification.</li>
+        <li> Zero crossing rate (ZCR)  </li>
+        <ul>
+            <li>number of times signal crosses the horizontal axis</li>
+            <li> \( ZCR_t = \frac{1}{2} \sum_{k = t.K}^{(t+1).K -1}  |sgn (s(k)) - sgn (s(k +1)) | \)</li>
+        </ul>
+
+    </ul>
+
 </body>
 </html>
