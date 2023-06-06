@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>important notes for speech processing </title>
+</head>
+<body>
+    <h2> Introduction </h2>
+    <p> The below link contains notes for the speech signal processing.</p>
+    <a href="https://github.com/musikalkemist/AudioSignalProcessingForML/tree/master"> Lecture wise notes</a>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<h2>Important formulas</h2>
+    <h3> Pitch </h3>
+        <ul>
+            <li> Octave is divided in 12 semitones </li>
+            <li> Pitch calculation and relationship with MIDI  </li>
+            <li> midi note: 69 -m A# , frequency   440 Hz </li>
+            <li> F(p) = 2 <sup> (p - 69) /12</sup>. 440 </li>
+            <li> F(p+1)/F(p) =   2 <sup>1/12</sup>  = 1.059 </li>
+        </ul>
+
+    <h3>Intensity, loudness and timbre </h3>
+    <ul>
+        <li> Threshold of hearing TOH =  10 <sup>-12</sup> W/m<sup>2</sup> </li>
+        <li> Threshold of pain TOP = 10 W/m <sup>  2</sup> </li>
+        <li> \(dB = 10 . log_{10} \big( \frac{I}{I_{TOH}} \big) \)</li>
+        <li>Every \( \sim \) 3 dB, intensity doubles</li>
+        <li> Loudness subjective perception of intensity, measured in phones</li>
+        <li>Timbre: color of sound: difference between sounds with same intensity, frequency, duration: Timbre is multidimensional  </li>
+        <li>Attack delay, sustain, release model (ADSR)</li>
+        <li> Frequency modulation is also called as vibrato</li>
+        <li> Amplitude modulation - tremelo</li>
+    </ul>
+
+    <h3>Audio signals</h3>
+    <h4> Analog to Ditital conversion </h4>
+        <ul>
+        <li> Sampling \(  t_n = n. T  \) </li>
+        <li>Quantization</li>
+        <li> Sampling rate  \( s_r = \frac{1}{T} \) </li>
+        <li> Why sampling rate for CD 44100 hz ? </li>
+        <li> Nyquist sampling \( f_N = s_r / 2\) </li>
+        <li> nyquist frequency for CD 44100 /2 = 22050 - we can go upto 22k freq with no artifacts. </li>
+        <li> Aliasing </li>
+        <li> Quantization: values along y-axis </li>
+        <li>resolution: number of bits, bit depth: (same), for example for CD: 16 bit depth, \( 2^{16} =  655356\) </li>
+        <li> Memory requirement for 1 minute of audio: bit depth: 16, sampling rate 44100 Hz</li>
+        <li> (16 x 44100 /1048576)/8 x 60 = 5.49 MB </li>
+        <li> Dynamic range: Difference between largest/smallest signal a system can record</li> 
+        <li> Signal to quantization noise ratio: relationship btween max signal strengh and quantization error </li>
+        <li> SQNR = 6.02 Q (check)  </li>
+    </ul>
+
+    <h4> How to record sound (ADC), how to reproudce sound (DAC) </h4> 
+
+<h3> Audio Features </h3>
+    <h4> Level of abstraction </h4>
+    <ul>
+        <li> High-level: 
+                Examples: instrumentation, key, chords, melody, rhythm,
+                tempo, lyrics, genre, mood </li>
+        <li>  Mid-level:
+                Examples: pitch- and heat-related descriptors, such as note
+                onsets, fluctuation patterns, MFCCs </li>
+        <li> Low-level: 
+                level of abstraction, temporal scope, music aspect, signal domain, ML approach </li>
+    </ul>
+
+    <h4>Temporal scope</h4>
+        <li>Applies to music as well as non music</li>
+        <li> Instantaneous (~50 ms), Segment level (seconds), Global</li>
+
+    <h4>Signal domain</h4>
+    <ul>
+        <li> </li>
+        <li><li> 
+<h4> Music aspect </h4>
+<ul> 
+<li> 
+</body>
+</html>
