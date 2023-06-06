@@ -67,7 +67,7 @@
                 Examples: pitch- and heat-related descriptors, such as note
                 onsets, fluctuation patterns, MFCCs </li>
         <li> Low-level: 
-                level of abstraction, temporal scope, music aspect, signal domain, ML approach </li>
+                level of abstraction, temporal scope , music aspect, signal domain, ML approach </li>
     </ul>
 
     <h4>Temporal scope</h4>
@@ -76,10 +76,33 @@
 
     <h4>Signal domain</h4>
     <ul>
-        <li> </li>
-        <li><li> 
-<h4> Music aspect </h4>
-<ul> 
-<li> 
+        <li> Time domain</li>
+        <li>Frequency domain: Band energy ration, </li> 
+        <li> Time frequency representation: Spectrogram, Mel-spectrogram, constant q-transform</li>
+        <ul>
+            <li>Spectrogram: short term fourier transform</li>
+        </ul>
+            <li> Traditional machine learning </li>
+            <ul>
+                <li> Amplitude envelope, Root mean square energy, zero crossing rate, band energy ratio, spectral centriod, 
+                spectral flux, spectral spread, spectral roll-off </li> 
+            </ul>
+    </ul>
+
+<h3> Time domain feature pipeline </h3>
+<ul>
+    <li> Audio , ADC,sampling and quatization, framing (overlapping) </li>
+    <li>Reason for frame overlapping: 1 sample: 1@44.1 KHz = 0.0227 ms, ear's resolution: 10 ms</li>
+    <li>  frame size 128 - power of 2, if number of samples are power of 2, fast fourier transform is faster </li>
+    <li> Typical values: 256 - 8192</li>
+    <li> \( d_f = \frac{1}{s_r}.K  = \frac{1}{44100}. 512 = 11.6 ms \) </li>
+    <li> after framing: feature computation, aggregation (mean, median, GMM) , feature vector/vector/matrix
+</ul>
+
+<h3> Frequency domain feature pipeline </h3>
+    <ul>
+        <li> Audio , ADC,sampling and quatization, </li>
+        <li> Spectral leakage </li>
+    </ul>
 </body>
 </html>
