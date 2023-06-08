@@ -226,5 +226,37 @@
     <li> FFT exploits redundancies across sinusoids</li>
     <li> FFT works when N is a power of 2. </li>
 </ul>
+<h3>Short-Time fourier Transform</h3>
+<ul>
+    <li>Initial fft only represents the frequency components present in entire signal but not sure where.</li>
+    <li>Consider small segments of the signal, apply FFT logically</li>
+    <li>Apply windowing function to the signal</li>
+    <li>\( x_w (k) = x(k).w(k) \)</li>
+    <li>example:rectangle window function rect some place and 0 other places</li>
+    <li> window size and frame size measured in number of samples</li>
+    <li>usually window size and frame size coinside, but sometimes frame size is larger</li>
+    <li>window function + remaining 0 padded</li>
+    <li> for now assume window size == frame size</li>
+    <li>But frames are overlapping (Hop size: how many samples to slide for taking the next frame)</li>
+    <li>\( \hat{x}(k) =  \sum_{n=0}^{N-1} x(n) . e^{-i 2 \pi n k/N }\) </li>
+    <li>\( \hat{S}(m,k) =  \sum_{n=0}^{N-1} x(n + mH). w(n) . e^{-i 2 \pi n k/N }\) </li>
+    <li> DFT</li>
+    <ul>
+        <li>Spectral vector (# of frequency bins)</li>
+        <li>N Complex fourier cofficients</li>
+    </ul>
+    <li>STFT</li>
+    <ul>
+        <li>Spectral matrix (# frequency bins, #frames)</li>
+        <li>Complex fourier cofficients</li>
+    </ul>
+    <li># frequency bins = \(\frac{framesize}{2} + 1\) </li>
+    <li># frames = \( \frac{samples - framesize}{hopsize} + 1\)</li>
+    <li>Time / frequency tradeoff</li>
+    <ul>
+        <li>if  frame size \( \Uparrow \), freq resolution \( \Uparrow \)  and time resolution \( \Downarrow\) (Reason is more frequency bins)</li>
+        <li>if  frame size \( \Downarrow \), freq resolution \( \Downarrow \)  and time resolution \( \Uparrow\)</li>
+        <li>Windowing function: Hann window \(w(k) =  0.5 . (1 - cos(\frac{2 \pi k}{K-1})) ; k = (0,....K\)</li>
+    </ul>
 </body>
 </html>
