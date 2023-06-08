@@ -194,5 +194,37 @@
         <li> \( g(t) = \int c_f  . e^{2\pi i ft} df\) </li>
     </ul>
 </ul>
+<h3>Discrete Fourier Transform</h3>
+<ul>
+    <li>\( \hat{g}(f) =    \int g(t). e^{-i 2\pi f t} dt \)</li>
+    <li> The above formula works with analog signals</li>
+    <li>Digital signal: \( g(t)   \mapsto  x(n) \)</li>
+    <li> \(t = nT \)</li>
+    <li> Building a discrete fourier transform</li>
+    <li> \( \hat{x(f)} =    \sum_n x(n) e^{-2 i \pi f n  }\) </li>
+    <li>Above definition has issues with continous frequency and infinite time.</li>
+    <li>Hacks: Consider f to be non 0 in a finite time interval.</li>
+    <lI> compute transform for finite number of frequencies.</lI>
+    <li>Number of frequencies (M) = Number of samples (N)</li>
+    <li> Why M = N?</li>
+    <ul>
+        <li> Invertible transformation</li> 
+        <li> Computational efficiency</li>
+    </ul>
+    <li>\( \hat{x}(f) =  \sum_{n=0}^{N-1} x(n) . e^{-i 2 \pi f n}\) </li>
+    <li>\( \hat{x}(k/N) =  \sum_{n=0}^{N-1} x(n) . e^{-i 2 \pi n k/N }\) </li>
+    <li> k = [0, M-1] = [0 - N-1] </li>
+    <li>\( F(k) = \frac{k}{NT}  = \frac{k s_r}{N}\)</li>
+    <li> Redundancy in DFT</li>
+    <li>\( k = N/2 \rightarrow F(N/2) = s_r/2 \)  \(\rightarrow\) Nyquist frequency</li>
+    <li>So above nyquist frequency, we are not able to reconstruct the signal without some aliasing.</li>
+</ul>
+<h3>From DFT to Fast Fourier Transform</h3>
+<ul>
+    <li>DFT is computationaly expensive \(  O(N^2)\) </li>
+    <li>FFT is more efficient \( O(N \log_2(N) ) \)</li>
+    <li> FFT exploits redundancies across sinusoids</li>
+    <li> FFT works when N is a power of 2. </li>
+</ul>
 </body>
 </html>
