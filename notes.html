@@ -100,7 +100,6 @@
 </ul>
 
 <h3> Frequency domain feature pipeline </h3>
-<h3> dfdf </h3>
     <ul>
         <li> Audio , ADC,sampling and quatization, </li>
         <li> Spectral leakage </li>
@@ -134,13 +133,66 @@
             <li> \( RMS_t = \sqrt {\frac{1}{K} \sum_{k = t.K}^{(t+1)K -1} s(k)^2} \) </li>
             <li> Indicator of loudness, less sensitive to outliers. </li>
             <li> applications: audio segmentation, music genre classification.</li>
+        </ul>
         <li> Zero crossing rate (ZCR)  </li>
         <ul>
             <li>number of times signal crosses the horizontal axis</li>
             <li> \( ZCR_t = \frac{1}{2} \sum_{k = t.K}^{(t+1).K -1}  |sgn (s(k)) - sgn (s(k +1)) | \)</li>
+            <li> recognition of percussive versus pitched sounds, monophonic pitch estimation (check)</li>
         </ul>
 
     </ul>
 
+<h3>Fourier Transform</h3>
+<h4>Introduction</h4>
+<ul>
+    <li>The prism example: white light splitting into different colors</li>
+    <li>Decompose a complex sound into its frequency components</li>
+    <li>From time domain to frequency domain</li>
+    <li>Compare signal with sinusoids of various frequency: each freq: magnitude and phase</li>
+    <li> High magnitude indicates higher similarity</li>
+    <li>C note example: good example. freq along with higher octaves.</li>
+    <li> Fourier transform steps:</li>
+    <ul>
+        <li>Choose a frequency</li>
+        <li> Optimize phase</li>
+        <li>Calculate magnitude</li>
+        <li>  \(  \phi_f = argmax_{\phi \in [0,1) }  \bigg(  \int s(t) . sin (2\pi (f.t - \phi)) \bigg) \)</li>
+        <li>  \(  d_f = max_{\phi \in [0,1) }  \bigg(  \int s(t) . sin (2\pi (f.t - \phi)) \bigg) \) </li>
+        <li>Assumption: time and frequency are continous.</li>
+    </ul>
+    <li>How to go in reverse: frequency domain to time domain.</li>
+    <ul>
+        <li>Superimpose sinusiods.</li>
+        <li> Weigh them by their relative magnitude.</li>
+        <li> Use relative phase.</li>
+        <li>Additive synthesis (synthesizers): for creating complex music sounds.  <a href="https://teropa.info/harmonics-explorer/">Teropa</a></li>
+    </ul>
+    <li> Complex number why in fourier domain?</li>
+    <ul>
+        <li> Fourier transform: magnitude and phase : something with magnitude + phase</li>
+        <li> \( c = a + i.b ,  \gamma = \tan^{-1} (b/a),  |c| = \sqrt{(a^2 + b^2)} \)</li>
+        <li> c =  \(|c| \big(cos (\gamma) + i sin(\gamma) \big)\)</li>
+        <li>\( e^{i\gamma} = cos(\gamma) + i sin(\gamma) \)</li>
+        <li>euler's identity: \( e^{i \pi} + 1 = 0 \) </li>
+        <li>\( c = |c| e^{i\gamma}\) </li>
+    </ul>
+    <li> Fourier transform using complex numbers</li>
+    <ul>
+        <li>Using previous two formula for fourier transform phase and magnitude and complex number definition</li>
+        <li>\( c_f = \frac{d_f}{\sqrt{2}} e^{-i2\pi \phi_f}\)</li>
+        <li> Here due to - sign, rotating clockwise direction.</li>
+        <li>\(  \hat s (f)  = c_f\)</li>
+        <li> \( \hat s (f)  = \int s(t). e^{-i 2\pi ft} dt\) </li>
+        <li> At every point t, we are rotating full circle with speed dependent upon t, if t is more, speed is less.</li>
+        <li>  \( s(t). e^{-2 \pi f t} \)- this is stable when that frequency is present otherwise not</li>
+        <li> integral reprsenets the center of gravity: it is zero if curve is more unstable in general - represents the   </li>
+        
+    </ul>
+    <li> Inverse Fourier transform:</li>
+    <ul>
+        <li> \( g(t) = \int c_f  . e^{2\pi i ft} df\) </li>
+    </ul>
+</ul>
 </body>
 </html>
