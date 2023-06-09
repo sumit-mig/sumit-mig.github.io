@@ -351,13 +351,16 @@
             <li>Convert lowest/highest frequency to mel using below formula</li>
             <li>\( m = 2595 . log( 1 + \frac{f}{700}) \)</li>
             <li>Create number of mel bands equally spaced points. (example for 6 bands) </li>
-
-  
+            <li> Convert points back to hertz</li>
+            <li>\( f = 700 (10^{m/2595} - 1 )\)</li>
+            <li>Round to nearest frequency bin</li>
+            <li>Create triangular filters</li>  
 
             <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
             <div id="myPlot" style="width:100%;max-width:200px"></div>
 
-            <script>
+            <!-- <script>
+                // TODO : complete the picture with animation of this process
                 var y1 = [0,0,0,0,0,0];
                 var x1 = [1,2,3,4,5,6];
                 var y2 = [0,0];
@@ -392,108 +395,11 @@
                 };
                 Plotly.newPlot('myPlot', plotData, layout, {responsive:false});
             
-            </script>
-        <li> Convert points back to hertz</li>
-        <li>\( f = 700 (10^{m/2595} - 1 )\)</li>
-        <li>Round to nearest frequency bin</li>
-        <li>Create triangular filters</li>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-        <canvas id="myChartmel" style="width:100%;max-width:500px"></canvas>
-        <script>
-            var actualfreqRange = [];
-            var melRange = [];
-            var intermedmel = [];
-            var intermed = [];
-            generateDataend("2595*Math.log10(1+ x/700)", 1000, 8000, 7000);
-            intermedmel = makeArr(melRange[0],melRange[1],8);
-            console.log(intermedmel,'sumitt')
-
-            generateIntermediate("700*(Math.pow(10,(i/2595)) -1)",intermedmel);
-
-            // new Chart("myChartmel", {
-            // type: "line",
-            // data: {
-            //     labels: xValues,
-            //     datasets: [{
-            //     fill: false,
-            //     pointRadius: 2,
-            //     borderColor: "rgba(0,0,255,0.5)",
-            //     data: yValues
-            //     }]
-            // },    
-            // options: {
-            //     legend: {display: false},
-            //     title: {
-            //     display: true,
-            //     text: "Mel scale",
-            //     fontSize: 16
-            //     },
-
-            // scales: {
-            // yAxes: [{scaleLabel: {display: true,labelString: 'Mel frequency'} }],
-            // xAxes: [{scaleLabel: {display: true,labelString: 'Frequency (kHz)'} }],
-            //     }     
-            // }
-            // });
-
-            function generateDataend(value, i1, i2, step = 1) {
-            for (let x = i1; x <= i2; x += step) {
-                melRange.push(eval(value));
-                actualfreqRange.push(x);
-                }
-            };
-
-            function makeArr(startValue, stopValue, cardinality) {
-                var arr = [];
-                var step = (stopValue - startValue) / (cardinality - 1);
-                for (var i = 0; i < cardinality; i++) {
-                    arr.push(startValue + (step * i));
-                    }
-                return arr;
-                };
-
-            function generateIntermediate(value,rng) {
-            for (var i=0; i <= rng.length; i ++) {
-                intermed.push(eval(rng[i]));
-                }
-            }
-
-
-
-
-            function drawTriangle(context, point1, point2, point3, filled) {
-                context.beginPath();
-                context.moveTo(point1.x, point1.y);
-                context.lineTo(point2.x, point2.y);
-                context.lineTo(point3.x, point3.y);
-                context.closePath();
-                filled ? context.fill() : context.stroke();
-            }
-
-
-                // Usage example:
-                
-                var canvas = document.querySelector('#myChartmel');
-                var context = canvas.getContext('2d');
-
-            /*
-                    point3
-                    /*\
-                    /   \
-                /     \
-                *-------*
-                point1  point2  
-            */
-                
-                const point1 = {x: 30,  y: 180};
-                const point2 = {x: 170, y: 160};
-                const point3 = {x: 100, y: 30 };
-    
-                drawTriangle(context, point1, point2, point3, false);
-        
-        </script>
+            </script>      -->
         </ul>
+    <li>Mel spectrogram = matrix multiplication between Melfilters and Spectrogram = M Y</li>
+    <li>Mel spectrogram shape: (# bands, # frames)</li>
+    <li>Mel spectrogram applications: Audio classification, Automatic mood recognition, music genre classification, music instrument classification </li>
 
     </ul>
     </ul>
