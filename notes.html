@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <title>important notes for speech processing </title>
 </head>
+<style>
+    
+    #myChartmel { border: 1px solid gray; }
+    
+  </style>
 <body>
     <h2> Introduction </h2>
     <p> The below link contains notes for the speech signal processing.</p>
@@ -256,7 +262,240 @@
     <ul>
         <li>if  frame size \( \Uparrow \), freq resolution \( \Uparrow \)  and time resolution \( \Downarrow\) (Reason is more frequency bins)</li>
         <li>if  frame size \( \Downarrow \), freq resolution \( \Downarrow \)  and time resolution \( \Uparrow\)</li>
-        <li>Windowing function: Hann window \(w(k) =  0.5 . (1 - cos(\frac{2 \pi k}{K-1})) ; k = (0,....K\)</li>
+        <li>Windowing function: Hann window \(w(k) =  0.5 . (1 - cos(\frac{2 \pi k}{K-1})) ; k = (0,....K) \)</li>
+        <li> If we simply visualize the spectrogram, it does not plot values which we can see visually since values are very small.</li>
+        <li> Therefore we feed the log of the amplitude (librosa power_to_db function: computes on square of amplitde given as input) </li>
+        <li>The above thing solves the purpose, however there is one more catch as we do not perceive the frequencies linearly, that also should be logarithmic</li>
+        <li> Therefore the steps can be summarized as follows:</li>
+        <ul>
+            <li>Given signal, compute the STFT</li>
+            <li>compute the absolute value of the ouput</li>
+            <li>Take squared value of the absolute output, compute the db</li>
+            <li>plot it on the log scale frequency</li>
+        </ul>
+    </ul>
+    <h3>Mel-spectrograms</h3>
+    <ul>
+        <li>Psychoacoustic exeperiment</li>
+        <ul>
+            <li>1st sample: C2-C4 (65 - 262 Hz) </li>
+            <li>2nd sample: G6-A6 (1568-1760 Hz) </li>
+            <li>Both have around 200 Hz difference, but when we hear, we percieve/feel that the first one has more difference.</li>
+            <li>We have better resolution at low frequency than the higher frequency.</li>
+            <li>Humans perceive frequency logarithmically.</li>
+        </ul>
+        <li> Ideal audio feature:</li>
+        <ul>
+            <li>Iime frequency representation (simple spectrogram can do)</li>
+            <li>Perceptually-relevant amplitude representation (simple spectrogram can do)</li>
+            <li>Perceptually-relevant frequency representation (cannot do)</li>
+        </ul>
+        <li>Mel scale: perceptually relevant scale for pitch.</li>
+        <li>\( m = 2595. \log(1 + \frac{f}{700} )\) </li>
+        <li> \( f = 700. (10^{m/2595} - 1) \)</li>
+        <li>1000 Hz = 1000 Mel</li>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <canvas id="myChart" style="width:100%;max-width:500px"></canvas>
+        <script>
+            var xValues = [];
+            var yValues = [];
+            generateData("2595*Math.log10(1+ x/700)", 0, 2500, 200);
+            
+
+            new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                fill: false,
+                pointRadius: 2,
+                borderColor: "rgba(0,0,255,0.5)",
+                data: yValues
+                }]
+            },    
+            options: {
+                legend: {display: false},
+                title: {
+                display: true,
+                text: "Mel scale",
+                fontSize: 16
+                },
+
+            scales: {
+            yAxes: [{scaleLabel: {display: true,labelString: 'Mel frequency'} }],
+            xAxes: [{scaleLabel: {display: true,labelString: 'Frequency (kHz)'} }],
+                }     
+            }
+            });
+            function generateData(value, i1, i2, step = 1) {
+            for (let x = i1; x <= i2; x += step) {
+                yValues.push(eval(value));
+                xValues.push(x);
+            }
+            }
+        </script>
+
+    <li> Recipe to extract mel spectrogram:</li>
+    <ul>
+        <li>Extract STFT</li>
+        <li>Convert amplitude to DBs</li>
+        <li>Convert frequencies to Mel scale (steps below):</li>
+        <ul>
+            <li>Choose number of mel bands (how many: depends- hyperparameter, generally 40 - 130)</li>
+            <li>Construct mel filter banks: (multi-step)</li>
+            <li>Apply mel filter banks to spectrogram</li>
+        </ul>
+        <li>Steps to construct mel filter banks:</li>
+        <ul>
+            <li>Convert lowest/highest frequency to mel using below formula</li>
+            <li>\( m = 2595 . log( 1 + \frac{f}{700}) \)</li>
+            <li>Create number of mel bands equally spaced points. (example for 6 bands) </li>
+
+  
+
+            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+            <div id="myPlot" style="width:100%;max-width:200px"></div>
+
+            <script>
+                var y1 = [0,0,0,0,0,0];
+                var x1 = [1,2,3,4,5,6];
+                var y2 = [0,0];
+                var x2 = [0,7];
+                var firstPlotTrace = {
+                    x: x2,
+                    y: y2,
+                    mode: 'lines+markers',
+                    marker: {color: 'rgb(255, 0, 0)'},
+                    line: {color: 'rgb(0, 255, 0)',width: 2},
+                    name: 'end pts'
+                };
+                var secondPlotTrace = 
+                    {
+                        x: x1,
+                        y: y1,
+                        mode: 'markers',
+                        marker: {color: 'rgb(0, 0, 255)'},
+                        name: 'filter'
+                    };
+
+                var plotData = [firstPlotTrace, secondPlotTrace];
+
+                var layout = {
+                    height: 300,
+                    width: 700,
+                    yaxis: {range: [-0.1, 0.1],zeroline: false,showline: false, visible: false  },
+                    xaxis: {range:[-1,8], zeroline: false,showline: false , visible: false }, 
+                    displaylogo: false
+                    //showlegend: false
+
+                };
+                Plotly.newPlot('myPlot', plotData, layout, {responsive:false});
+            
+            </script>
+        <li> Convert points back to hertz</li>
+        <li>\( f = 700 (10^{m/2595} - 1 )\)</li>
+        <li>Round to nearest frequency bin</li>
+        <li>Create triangular filters</li>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <canvas id="myChartmel" style="width:100%;max-width:500px"></canvas>
+        <script>
+            var actualfreqRange = [];
+            var melRange = [];
+            var intermedmel = [];
+            var intermed = [];
+            generateDataend("2595*Math.log10(1+ x/700)", 1000, 8000, 7000);
+            intermedmel = makeArr(melRange[0],melRange[1],8);
+            console.log(intermedmel,'sumitt')
+
+            generateIntermediate("700*(Math.pow(10,(i/2595)) -1)",intermedmel);
+
+            // new Chart("myChartmel", {
+            // type: "line",
+            // data: {
+            //     labels: xValues,
+            //     datasets: [{
+            //     fill: false,
+            //     pointRadius: 2,
+            //     borderColor: "rgba(0,0,255,0.5)",
+            //     data: yValues
+            //     }]
+            // },    
+            // options: {
+            //     legend: {display: false},
+            //     title: {
+            //     display: true,
+            //     text: "Mel scale",
+            //     fontSize: 16
+            //     },
+
+            // scales: {
+            // yAxes: [{scaleLabel: {display: true,labelString: 'Mel frequency'} }],
+            // xAxes: [{scaleLabel: {display: true,labelString: 'Frequency (kHz)'} }],
+            //     }     
+            // }
+            // });
+
+            function generateDataend(value, i1, i2, step = 1) {
+            for (let x = i1; x <= i2; x += step) {
+                melRange.push(eval(value));
+                actualfreqRange.push(x);
+                }
+            };
+
+            function makeArr(startValue, stopValue, cardinality) {
+                var arr = [];
+                var step = (stopValue - startValue) / (cardinality - 1);
+                for (var i = 0; i < cardinality; i++) {
+                    arr.push(startValue + (step * i));
+                    }
+                return arr;
+                };
+
+            function generateIntermediate(value,rng) {
+            for (var i=0; i <= rng.length; i ++) {
+                intermed.push(eval(rng[i]));
+                }
+            }
+
+
+
+
+            function drawTriangle(context, point1, point2, point3, filled) {
+                context.beginPath();
+                context.moveTo(point1.x, point1.y);
+                context.lineTo(point2.x, point2.y);
+                context.lineTo(point3.x, point3.y);
+                context.closePath();
+                filled ? context.fill() : context.stroke();
+            }
+
+
+                // Usage example:
+                
+                var canvas = document.querySelector('#myChartmel');
+                var context = canvas.getContext('2d');
+
+            /*
+                    point3
+                    /*\
+                    /   \
+                /     \
+                *-------*
+                point1  point2  
+            */
+                
+                const point1 = {x: 30,  y: 180};
+                const point2 = {x: 170, y: 160};
+                const point3 = {x: 100, y: 30 };
+    
+                drawTriangle(context, point1, point2, point3, false);
+        
+        </script>
+        </ul>
+
+    </ul>
     </ul>
 </body>
 </html>
