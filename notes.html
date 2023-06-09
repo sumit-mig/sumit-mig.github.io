@@ -274,6 +274,7 @@
             <li>plot it on the log scale frequency</li>
         </ul>
     </ul>
+</ul>
     <h3>Mel-spectrograms</h3>
     <ul>
         <li>Psychoacoustic exeperiment</li>
@@ -403,5 +404,70 @@
 
     </ul>
     </ul>
+    <h3>Mel-Frequency cepstral coefficients</h3>
+    <ul>
+        <li>cepsral : cepstrum: ceps: spec: spectrum</li>
+        <li>ceptrum developed while studying echos in siesmic signals. (1960s)</li>
+        <li>Audio feature of choice for speech recognition/identification (1970s)</li>
+        <li>Music processing (2000s)</li>
+        <li>quefrency: Frequency</li>
+        <li>liftering: filtering</li>
+        <li>Rhamonic: harmonic</li>
+        <li>Computing the cepstrum</li>
+        <li>\( C(x(t)) = F^{-1}\big[log(F[x(t)])\big] \) </li>
+
+        <li>Speech generation:  glottal pulses \(\rightarrow\) Vocal Tract \(\rightarrow\) Speech Signal</li>
+        <li> Glottal pulse contains info about pitch, vocal tract about the timbre (vowels and consonents)</li>
+        <li>log spectrum \( \rightarrow\) get maximum spectral envelope \( \rightarrow \) the peaks which we get are called Formants \(\rightarrow \)these carry identity of sound</li>
+        <li>Spectral envelope contains Vocal tract frequency response (Impulse response)</li>
+        <li>Speech is convolution of vocal tract frequency response with glottal pulse.</li>
+        <figure><img src="../images/cepstrum_1.png" height="400px">
+            <img src="../images/speech_process.png" height="300px">
+        </figure>
+        <li>\( x(t) = e(t)\otimes h(t) \) </li>
+        <li> X(f) = E(f). H(f)  </li>
+        <li>log (X(f)) = log (E(f)) + log(H(f))</li>
+        <li> We donot get these two as separate, the goal is to separate these two components.</li>
+        <li>And we are not interested in the timbre, interested in formants.</li>
+        <li>We want to remove the high frequencies in the log power spectrum: low pass filter : liftering</li>
+        <li>Steps:</li>
+        <ul>
+            <li>Waveform</li>
+            <li>DFT</li>
+            <li>Log-Amplitude spectrum (we donot perceive amplitude linearly)</li>
+            <li>Mel scaling (linear frequency rep to mel based)</li>
+            <li>Discrete cosine transform (similar to inverse fourier transform)</li>
+            <li>This gives MFCCs</li>
+        </ul>
+        <li>Why use Discrete cosine transform?</li>
+        <li>DIscerete cosine transform is simplified version of fourier transform. We get real valued coefficients</li>
+        <li>Decorrelates energy in different mel bands: (actual mel bands are overlapping)</li>
+        <li>Reduce # dimensions to represent spectrum.</li>
+        <li>How many coefficients?</li>
+        <li>first 12-13 coeff</li>
+        <li>First coefficients keep most of the information (eg. formants, spectral envolope)</li>
+        <li>Use \( \Delta \) and \( \Delta \Delta\) MFCCs: taking first and second derivatives (subtract MFCC's from previous to get delta)</li>
+        <li>Total 39 coefficients per frame (13x3, mfcc, \(\Delta, \Delta\Delta\) )</li>
+        <li>Advantages:</li>
+        <ul>
+            <li>Describe the large structures of the spectrum</li>
+        <li>Ignore fine spectral structures.</li>
+        <li>Work well in speech and music processing.</li>
+        </ul>
+        <li>Disadvantages:</li>
+        <ul>
+            <li>Not robust to noise</li>
+            <li>Extensive knowledge engineering</li>
+            <li>Not efficient for synthesis</li>
+        </ul>
+        <li>Applications:</li>
+        <ul>
+            <li>Speech prcessing: speech recognition, speaker recognition</li>
+            <li>Music processing: Music genre classification, mood classification, Automatic tagging</li>
+            <li>Pitch invariant, Timbre centric, cannot use them for chord classification.</li>
+        </ul>
+
+    </ul>
+
 </body>
 </html>
