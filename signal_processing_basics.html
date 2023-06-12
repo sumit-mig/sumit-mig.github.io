@@ -35,5 +35,41 @@
             </ul>
         </ul>
     </ul>
+
+<h3> Condition for existance of laplace transform</h3>
+<ul>
+    <li>Bilateral LT of \(f(t) \) = FT of \(f(t)e^{-\sigma t} \) </li>
+    <li>\( F(s) = \int_{-\infty}^{\infty} f(t) e^{-\sigma t} e^{-j \omega t} dt\) </li>
+    <li>\( F(s) = \int_{-\infty}^{\infty} f_1(t) e^{-j \omega t} dt\) </li>
+    <li>\(   \int_{-\infty}^{\infty} |f_1(t) dt |< \infty \) {fourier transform condition}</li>
+    <li>\(  \int_{-\infty}^{\infty} | f(t) e^{-\sigma t} | dt < \infty \) </li>
+    <li>From the above equation, we get the range of \( \sigma \) which gives the region of convergence (ROC)</li>
+    <li>Inside the ROC laplace transform will exist, outside it will be \( \infty \)</li>
+    <li>Example: Find ROC for \( f(t) = exp(2t) u(t) \)</li>
+    <ul>
+        <li> Using the condition:  \(  \int_{-\infty}^{\infty} | f(t) e^{-\sigma t} | dt < \infty \)</li>
+        <li> \(  \int_{-\infty}^{\infty} |  e^{2t} u(t)  e^{-\sigma t} | dt \)</li>
+        <li> \(  \int_{0}^{\infty} |  e^{(2-\sigma )t} | dt \)</li>
+        <li> \( 2 - \sigma < 0 \) </li>
+        <li> \( \sigma > 2 \)</li>
+    </ul>
+</ul>
+<h3>ROC and its properties</h3>
+<ul>
+    <li>ROC: It is the range of complex variables 's' in the s-plane for which Laplace transform is finite or convergent.</li>
+    <li>Properties:</li>
+    <ul>
+        <li>ROC does not include any poles.</li>
+        <li>exmaple: \( F(s) = \frac{1}{s +2 }\ \equiv s+2 = 0 \) === s = -2 is pole </li>
+        <li>For right sides signals ROC is right side to the rightmost pole.</li>
+        <li>For left sided signals, ROC is left side to the leftmost pole.</li>
+        <li>For the absolute integrability of a signal or the stablity of a system, ROC should include imaginary axis.</li>
+        <li>FOr both sided signals, ROC is a strip in the s-plane.</li>
+        <li>For finite duration signals, ROC is the entire s plane excluding s=0 &/or \( + \infty  &/or \( - \infty \)</li>
+    </ul>
+    <figure src = "../images/roc_properties.png" height = 200></figure>
+</ul>
+
+    
 </body>
 </html>
