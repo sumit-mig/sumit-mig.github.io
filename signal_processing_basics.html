@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signal processing notes</title>
+   
+</head>
+<body>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <h2>Signal processing basics:</h2>
+    <p>These notes are not in any particular order. As and when I felt that I could not understand some point, I have gone to that concept and written the notes</p>
+    <ul>
+        <li>CTFT === DTFT</li>
+        <li>CTFT/DTFT - for energy and power </li>
+        <li>LT (Laplace transform) === Z transfprm</li>
+        <li>LT - energy, power, Neighter energy not power function\(^*\)</li>
+        <li>Laplace transform - generalized CTFT</li>
+        <li>Relation between laplace transform and CTFT</li>
+        <ul>
+            <li>When time domain signal is absolutely integrable</li>
+            <li>\(LT \rightarrow FT \) using \( s = j \omega\)</li>
+            <li>Proof:</li>
+            <ul>
+                <li>\( F(s) = \int_{ -\inf}^{\inf} e^{-st} dt\) </li>
+                <li> \( s = \sigma + j \omega\)</li>
+                <li>\( F(s) = \int_{-\inf}^{\inf} f(t) e^{-(\sigma + j \omega)t } dt\)</li>
+                <li>\( F(s) = \int_{-\inf}^{\inf} f(t) e^{-\sigma t } e^{- j \omega t } dt\)</li>
+                <li> \(F(s) = F\{f(t) e^{- \sigma t}  \} \) </li>
+                <li> Put \( \sigma = 0\), we get \( F(s) = F\{ f(t) e^0 \}\) </li>
+                <li> \( F(s) = F(\omega)\)  when \(s = j \omega \)</li>
+                <li>Fourier transform exists only when the time domain signal is absolutely integratable.</li>
+            </ul>
+        </ul>
+    </ul>
+</body>
+</html>
