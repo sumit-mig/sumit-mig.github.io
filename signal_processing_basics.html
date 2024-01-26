@@ -69,7 +69,143 @@
     </ul>
     <figure><img src = "../images/roc_properties.png" height = 200></figure>
 </ul>
+<h3>Basics</h3>
+<ul>
+    <li><strong>Fourier transform of complex exponential:</strong></li>
 
+    <p>Consider the complex exponential function \(x(t) = e^{-j\omega t}\), where \(\omega\) is a complex number.</p>
+
+    <p>The Fourier transform \(X(f)\) is given by:</p>
     
+    \[ X(f) = \int_{-\infty}^{\infty} x(t) e^{-j2\pi ft} \, dt \]
+    
+    <p>Substitute \(x(t) = e^{-j\omega t}\) into the integral:</p>
+    
+    \[ X(f) = \int_{-\infty}^{\infty} e^{-j\omega t} e^{-j2\pi ft} \, dt \]
+    
+    <p>Combine the exponential terms:</p>
+    
+    \[ X(f) = \int_{-\infty}^{\infty} e^{-j(\omega + 2\pi f)t} \, dt \]
+    
+    <p>Now, evaluate the integral. The integral will be nonzero only when the exponent \(-j(\omega + 2\pi f)\) is equal to 0, i.e., \(\omega = -2\pi f\). At that point, the integral evaluates to the period of the complex exponential function, which is \(T = \frac{1}{\text{Im}(\omega)}\), where \(\text{Im}(\omega)\) is the imaginary part of \(\omega\). Therefore:</p>
+    
+    \[ X(f) = T \delta(f - \text{Im}(\omega)) \]
+    
+    <p>Finally, since \(T = \frac{1}{\text{Im}(\omega)}\), we get:</p>
+    
+    \[ X(f) = \frac{1}{\text{Im}(\omega)} \delta(f - \text{Im}(\omega)) \]
+    
+    <p>This is the Fourier transform of a complex exponential function, and it shows a Dirac delta function centered at the frequency equal to the imaginary part of \(\omega\).</p>
+    
+
+<li><strong>Derivation: Fourier Transform of Dirac Comb</strong> </l1>
+
+    <p><strong>Dirac Comb Function:</strong></p>
+    <p>The Dirac comb function is defined as:</p>
+    \[ \delta_T(t) = \sum_{n=-\infty}^{\infty} \delta(t - nT) \]
+
+    <p><strong>Fourier Transform:</strong></p>
+    <p>The Fourier transform of a Dirac comb \( \delta_T(t) \) is given by:</p>
+    \[ \mathcal{F}[\delta_T(t)] = \frac{1}{T} \sum_{n=-\infty}^{\infty} \delta(f - \frac{n}{T}) \]
+
+    <p><strong>Derivation:</strong></p>
+    <p>Start with the Fourier transform integral:</p>
+    \[ \mathcal{F}[\delta_T(t)] = \int_{-\infty}^{\infty} \delta_T(t) \cdot e^{-j2\pi ft} \, dt \]
+
+    <p>Apply the sifting property of the Dirac delta function:</p>
+    \[ \mathcal{F}[\delta_T(t)] = \sum_{n=-\infty}^{\infty} \int_{-\infty}^{\infty} \delta(t - nT) \cdot e^{-j2\pi ft} \, dt \]
+
+    <p>Use the sifting property for each term in the sum:</p>
+    \[ \mathcal{F}[\delta_T(t)] = \sum_{n=-\infty}^{\infty} e^{-j2\pi fnT} \]
+
+    <p>Recognize the series as a sum of Dirac delta functions in the frequency domain:</p>
+    \[ \mathcal{F}[\delta_T(t)] = \frac{1}{T} \sum_{n=-\infty}^{\infty} \delta(f - \frac{n}{T}) \]
+
+    <p>This result shows that the Fourier transform of a Dirac comb is another Dirac comb in the frequency domain, and the spacing between the impulses in the frequency domain is determined by the reciprocal of the period \( T \).</p>
+
+
+
+<li><strong>DTFT</strong></li>
+
+    <p>1. <strong>Continuous Signal (\(x(t)\)):</strong></p>
+    <p>Let \(x(t)\) be a continuous signal.</p>
+    
+    
+    <p>2. <strong>Impulse Train (\(P(t)\)):</strong></p>
+    <p>\(P(t)\) is the impulse train representing the sampling of \(x(t)\):</p>
+    \[ P(t) = \sum_{n=-\infty}^{\infty} \delta(t - nT_s) \]
+    <p>where \(T_s\) is the sampling period.</p>
+    
+    <p>3. <strong>Sampling Operation:</strong></p>
+    <p>The sampled signal \(x_s(t)\) is obtained by multiplying \(x(t)\) with \(P(t)\):</p>
+    \[ x_s(t) = x(t) \cdot P(t) \]
+    \[ x_s(t) = \sum_{n=-\infty}^{\infty} x(nT_s) \cdot \delta(t - nT_s) \]
+    
+    <p>4. <strong>Continuous-to-Discrete Mapping:</strong></p>
+    <p>The Discrete-Time Fourier Transform (DTFT) of \(x_s(t)\) (\(X_s(e^{j\omega})\)) is related to the DTFT of \(x(t)\) (\(X(e^{j\omega})\)) through spectrum replication:</p>
+    \[ X_s(e^{j\omega}) = \frac{1}{T_s} \sum_{k=-\infty}^{\infty} X(e^{j(\omega - 2\pi k/T_s)}) \]
+    <p>This equation illustrates the spectrum replication due to the sampling operation.</p>
+    
+    <p>In summary, \(x(t)\) is the continuous signal, \(x_p(t)\) is the periodic version formed by replicating \(x(t)\), \(P(t)\) is the impulse train representing sampling, and \(x_s(t)\) is the sampled signal obtained by multiplying \(x(t)\) with the impulse train. The relationship between the DTFTs of \(x(t)\) and \(x_s(t)\) involves spectrum replication.</p>
+    
+
+<li><strong>Sinc interpolation: </strong>Going from sampled domain to continuous domain: </li>
+
+
+
+    <p><strong>1. Sinc Function:</strong></p>
+    <ul>
+        <li>The sinc function is defined as \( \text{sinc}(x) = \frac{\sin(\pi x)}{\pi x} \).</li>
+        <li>It is zero at integer values except at \( x = 0 \), where it is 1.</li>
+    </ul>
+
+    <p><strong>2. Ideal Reconstruction:</strong></p>
+    <ul>
+        <li>In sinc interpolation, each sampled value contributes to the reconstruction through a sinc function centered
+            at the corresponding sampling point.</li>
+        <li>The ideal reconstruction is achieved by summing up these sinc functions.</li>
+    </ul>
+
+    <p><strong>3. Mathematical Formulation:</strong></p>
+    <ul>
+        <li>If \( x_s[n] \) represents the sampled values of a continuous signal \( x(t) \), then the sinc
+            interpolation \( x_{\text{interp}}(t) \) is given by:</li>
+        <li>\[ x_{\text{interp}}(t) = \sum_{n=-\infty}^{\infty} x_s[n] \cdot \text{sinc}\left(\frac{t - nT_s}{T_s}\right)
+        \]</li>
+        <li>Here, \( T_s \) is the sampling period.</li>
+    </ul>
+
+    <p><strong>Going Back from Discrete Signal to Continuous Signal:</strong></p>
+    <ol>
+        <li><strong>Obtain Sampled Values:</strong> Start with the sampled values \( x_s[n] \) obtained from the discrete
+            signal.</li>
+        <li><strong>Sinc Interpolation:</strong> Use sinc interpolation to reconstruct the continuous signal
+            \( x_{\text{interp}}(t) \) using the formula mentioned above.</li>
+        <li><strong>Limitation:</strong> The reconstruction is ideal only if the original continuous signal was
+            band-limited (i.e., it did not contain frequencies higher than the Nyquist frequency defined by the sampling
+            rate).</li>
+        <li><strong>Practical Considerations:</strong> In practice, perfect sinc interpolation is rarely achievable due
+            to various factors, such as finite precision and the potential presence of noise in the sampled values.</li>
+        <li><strong>Filtering:</strong> To address the limitation of ideal sinc interpolation, anti-aliasing filters are
+            often used during the sampling process to ensure that high-frequency components are removed before
+            sampling.</li>
+    </ol>
+
+    <p>In summary, sinc interpolation is a method for reconstructing a continuous signal from its sampled values. The
+        reconstruction is based on the ideal sinc function, and the process involves using sinc functions centered at each sampling point to contribute to the reconstruction. Going back from a discrete signal to a continuous
+        signal involves using sinc interpolation to interpolate between the sampled values. The success of the
+        interpolation depends on the characteristics of the original continuous signal and the sampling process.</p>
+
+
+
+    Suppose x(t) is a band-limited signal, i.e., it does not contain frequencies higher than the Nyquist frequency defined by the sampling rate. Then, the DTFT of x(t) is zero outside the interval [-omage, +omege]. Now we are sampling it with T_s. In time domain it is multiplication of signal and dirac comb, in fourier domain it will become convolution, now fourier transform of dirac comb is dirac comb with change in spacing, and fourier transform of x(t) we know (lets say), so convolution will result bringing multiple copies of the spectrum of signal, which if follows sampling theorem, will not overlap. So, we can reconstruct the signal by taking inverse fourier transform of the sampled signal. And it means, if we want to get back the orignal signal, we have to multiply it with the rectangular window in frequency domain, whose fourier tranform is sinc. So, we have to convolve the sampled signal with sinc function to get back the original signal in the time domain.
+<li><strong>DFT</strong></li>
+
+<p>The Discrete Fourier Transform (DFT) is a mathematical technique used to analyze the frequency content of a discrete signal. Let's derive the formula for the DFT.</p>
+<p>Given a finite-length sequence \( x[n] \) for \( 0 \leq n < N \), the DFT \( X[k] \) is defined as:</p>
+\[ X[k] = \sum_{n=0}^{N-1} x[n] \cdot e^{-j \frac{2\pi}{N} kn} \]
+
+<p>Here, \( X[k] \) represents the k-th frequency component of the signal, and \( e^{-j \frac{2\pi}{N} kn} \) is a complex sinusoidal basis function with frequency \( \frac{k}{N} \).</p>
+
 </body>
 </html>
