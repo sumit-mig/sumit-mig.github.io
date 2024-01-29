@@ -191,13 +191,7 @@
             sampling.</li>
     </ol>
 
-    <p>In summary, sinc interpolation is a method for reconstructing a continuous signal from its sampled values. The
-        reconstruction is based on the ideal sinc function, and the process involves using sinc functions centered at each sampling point to contribute to the reconstruction. Going back from a discrete signal to a continuous
-        signal involves using sinc interpolation to interpolate between the sampled values. The success of the
-        interpolation depends on the characteristics of the original continuous signal and the sampling process.</p>
-
-
-
+    <p>In summary, sinc interpolation is a method for reconstructing a continuous signal from its sampled values. The reconstruction is based on the ideal sinc function, and the process involves using sinc functions centered at each sampling point to contribute to the reconstruction. Going back from a discrete signal to a continuous signal involves using sinc interpolation to interpolate between the sampled values. The success of the interpolation depends on the characteristics of the original continuous signal and the sampling process.</p>
     Suppose x(t) is a band-limited signal, i.e., it does not contain frequencies higher than the Nyquist frequency defined by the sampling rate. Then, the DTFT of x(t) is zero outside the interval [-omage, +omege]. Now we are sampling it with T_s. In time domain it is multiplication of signal and dirac comb, in fourier domain it will become convolution, now fourier transform of dirac comb is dirac comb with change in spacing, and fourier transform of x(t) we know (lets say), so convolution will result bringing multiple copies of the spectrum of signal, which if follows sampling theorem, will not overlap. So, we can reconstruct the signal by taking inverse fourier transform of the sampled signal. And it means, if we want to get back the orignal signal, we have to multiply it with the rectangular window in frequency domain, whose fourier tranform is sinc. So, we have to convolve the sampled signal with sinc function to get back the original signal in the time domain.
 <li><strong>DFT</strong></li>
 
@@ -206,6 +200,33 @@
 \[ X[k] = \sum_{n=0}^{N-1} x[n] \cdot e^{-j \frac{2\pi}{N} kn} \]
 
 <p>Here, \( X[k] \) represents the k-th frequency component of the signal, and \( e^{-j \frac{2\pi}{N} kn} \) is a complex sinusoidal basis function with frequency \( \frac{k}{N} \).</p>
+
+
+<li><strong>Discerete convolution</strong></li>
+
+<p>The formula for discrete convolution is given by:</p>
+<div id="discreteConvolutionFormula">
+  \[
+  (f * g)[n] = \sum_{k=0}^{N-1} f[k] \cdot g[n-k]
+  \]
+</div>
+<p>where \( n \) varies from \( 0 \) to \( N+M-2 \).</p>
+
+
+
+<li><strong>LTI: FIR vs IIR</strong></li>
+An LTI system can have Finite impulse response or Infinite impuse reponse.
+<ul>
+    <li>FIR: If the impulse response of a system is finite, then the system is called FIR system.</li>
+    <li>IIR: If the impulse response of a system is infinite, then the system is called IIR system. An IIR filter can be of two types:</li>
+    <ul>
+        <li> Rational transfer function </li>
+        <li> Non-rational transfer function </li>
+    </ul>
+    It can be written in the form of recursion iff the transfer function is a rational function of z.
+</ul>
+
+
 
 </body>
 </html>
