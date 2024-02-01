@@ -226,7 +226,20 @@ An LTI system can have Finite impulse response or Infinite impuse reponse.
     It can be written in the form of recursion iff the transfer function is a rational function of z.
 </ul>
 
+<li><strong>Important insight:</strong></li>
 
-
+Several physical systems can be modeled in the below form.
+ <!-- write differential equation  a_n d^n y /dt^n-->
+    <ul>
+         \[ a_{n} \frac{d^n y}{dt^n} + a_{n-1} \frac{d^{n-1} y}{dt^{n-1}} + \dots + a_1 \frac{dy}{dt} + a_0 y = b_m \frac{d^m x}{dt^m} + \dots + b_1 \frac{dx}{dt} + b_0 x \]</li>
+    
+    <li>This equation can be solved by putting  \[ x(t) = e^{i2\pi f t} \] </li>
+    <li>If x(t) is of the above form, the y(t) should be of the form \[ y(t) = \phi (f) e^{i2\pi f t} \]</li>
+    <li>  \( a_{n} (i2\pi f)^n Y(f) + a_{n-1} (i2\pi f)^{n-1} Y(f) + \dots + a_1 (i2\pi f) Y(f) + a_0 Y(f) = b_m (i2\pi f)^m X(f) + \dots + b_1 (i2\pi f) X(f) + b_0 X(f) \)</li>
+        \[ 
+        \Phi(f) = \frac{\sum_{j=0}^{m} b_j(2\pi i f)^j}{\sum_{k=0}^{n} a_k(2\pi i f)^k} 
+        \]
+    </ul>
+    This gives us the transfrer function, which is a complex polynomial in f. Values where numerator is zero are called zeros and where denominator is zeros are called poles.
 </body>
 </html>
