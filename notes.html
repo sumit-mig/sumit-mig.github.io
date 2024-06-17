@@ -478,5 +478,38 @@
     <li>Everything will happen on GPU: so faster</li>
 </ul>
 
+<h3>Connectionist Temporal Classification (CTC).</h3>
+<h4>Derivation:</h4>
+<ul>
+    <li>Label Error Rate (LER) is defined as:
+        <p>LER(h, S') = \( \frac{1}{|S'|} \sum_{(x,z) \in S'} \frac{\text{ED}(h(x), z)}{|z|} \)</p>
+        </li>        
+    <li>Alignment problem (x,z), x is input sequence \( (x_1, x_2 ... x_T) \), z - target sequence  \(( z_1, z_2 ... z_U) \) U <=T</li>
+    <li>Define RNN:   \((&Ropf;^m)^T &rarr;  (&Ropf;^n)^T \)</li>
+    <li>The conditional probability of a label sequence is defined as:
+        <p>\( p(\pi |x) = \prod_{t=1}^{T} y_{\pi_t}^t, \forall \pi \in L'^{T} \)</p>
+        </li>
+    <li>Then \( y_t^k \) is interpreted as the probability of observing label \( k \) at time \( t \), which defines a distribution over the set \( L'^T \) of length \( T \) sequences over the alphabet \( L' = L \cup \{\text{blank}\} \):</li>
+    <li>From now on, we refer to the elements of \( L'^T \) as paths, and denote them \( \pi \).</li>
+    <li>The next step is to define a many-to-one map \( B : L'^T \rightarrow L^{\leq T} \), where \( L^{\leq T} \) is the set of possible labellings (i.e. the set of sequences of length less than or equal to \( T \) over the original label alphabet \( L \)).</li>
+
+    <li>We do this by simply removing all blanks and repeated labels from the paths (e.g. \( B(a − ab−) = B(−aa − −abb) = aab \)). Intuitively, this corresponds to outputting a new label when the network switches from predicting no label to predicting a label, or from predicting one label to another.</li>
+    <p>Finally, we use B to define the conditional probability of a given labelling \(l \in L^{≤T}\) as the sum of the probabilities of all the paths corresponding to it.</p>
+    <li>The probability of a given labelling is defined as:
+        <p>p(l|x ) = \( \sum_{\pi \in B^{-1}(l)} p(\pi|x) \)</p>
+        </li>
+    <li>The forward variable \( \alpha \) is defined as:
+        <p> \( \alpha_t(s) =\sum_{\pi \in N^T ;  B(\pi_{1:t})=l_{1:s} }\prod_{t'=1}^{t} y^{\pi_{t'}}_{t'} \)</p>
+    </li>
+    # udpate forward recursion
+    <li> The forward variable is computed by summing over all paths that end in the label sequence up to time \( t \), and multiplying the probabilities of the labels along the path.</li>
+    <li> The forward variable is computed recursively as follows:</li>
+    <li> \( \alpha_1(1) = y^{\text{b}}_1, \alpha_1(2) = y^1_{l_1},  \alpha_1(s) = 0  \forall  s > 1 \)</li>
+
+    <li> \( \alpha_t(1) = y^{\text{blank}}_t \alpha_{t-1}(1) + y^1_t \alpha_{t-1}(1), \alpha_t(s) = y^s_t \alpha_{t-1}(s) + y^{\text{blank}}_t \alpha_{t-1}(s-1) + y^s_t \alpha_{t-1}(s-1), \forall s > 1 \)</li>
+
+    
+</ul>
+
 </body>
 </html>
