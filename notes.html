@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
     <title>important notes for speech processing </title>
 </head>
 <style>
@@ -509,6 +512,35 @@
 
     
 </ul>
+
+<h3>Chi Square Distribution</h3>
+<h4>Formulation:</h4>
+<p>
+   Likelihood  \( \mathcal{L}  = P( \mathbf{D}|\mathbf{\theta}, M) =\displaystyle \prod_{i=1}^N \dfrac{\exp\left(\dfrac{-r_i^2}{2\sigma_i^2}\right)}{\sqrt{2\pi}\sigma} \)
+</p>
+<p>
+    \( \log \mathcal{L} = \frac{1}{2} \displaystyle \sum_{i=1}^N \bigg( -\log(2\pi) - \log(\sigma_i^2) - \frac{r_i^2}{\sigma_i^2}  \bigg) \)
+</p>
+
+<p>
+    If \( \sigma_i \) is constant, then
+</p>
+<p>
+    \( \log L = c - \frac{1}{2} \chi^2 \)
+</p>
+<p>
+    It’s often more convenient to calculate \( \log \mathcal{L} = \mathcal{L}^2 \)
+</p>
+
+<p>
+    If \( Z_1, \ldots, Z_k \) are independent, standard normal random variables, then the sum of their squares,
+</p>
+<p>
+    \( Q = \displaystyle \sum_{i=1}^{k} Z_i^2, \)
+</p>
+<p>
+    is distributed according to the chi-squared distribution with \( k \) degrees of freedom.
+</p>
 
 </body>
 </html>
