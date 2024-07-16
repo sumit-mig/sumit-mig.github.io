@@ -558,5 +558,26 @@ Example: Writing Regular expression ab*cd+e
 <figure>
 <img src="../images/abcde.png" alt="wfst image">
 </figure>
+<h4>Code to visualize wfst in ascii format</h4>
+
+<pre><code>
+    import pynini
+    
+    teens = pynini.string_map([
+        ("onze", "11"),
+        ("douze", "12"),
+        ("treize", "13"),
+        ("quatorze", "14"),
+        ("quinze", "15"),
+        ("seize", "16"),
+    ])
+    
+    teens.write("teens.fst")
+        </code></pre>
+    
+        <h4>Command to Generate High-Resolution Image</h4>
+        <pre><code>
+    fstdraw --isymbols=ascii.syms -portrait teens.fst | dot -Tpng -Gdpi=300 > teens_high_res.png
+        </code></pre>
 </body>
 </html>
