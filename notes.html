@@ -579,5 +579,22 @@ Example: Writing Regular expression ab*cd+e
         <pre><code>
     fstdraw --isymbols=ascii.syms -portrait teens.fst | dot -Tpng -Gdpi=300 > teens_high_res.png
         </code></pre>
+
+<h4>arguments in python</h4>
+<pre><code>
+    def example_function(pos1, pos2, *args, kw1, kw2="default", **kwargs):
+    print(f"pos1: {pos1}, pos2: {pos2}")
+    print(f"args: {args}")
+    print(f"kw1: {kw1}, kw2: {kw2}")
+    print(f"kwargs: {kwargs}")
+
+# Calling the function
+example_function(1, 2, 3, 4, 5, kw1="value1", extra1="extra", extra2="extra2")
+output:
+pos1: 1, pos2: 2
+args: (3, 4, 5)
+kw1: value1, kw2: default
+kwargs: {'extra1': 'extra', 'extra2': 'extra2'}
+</code></pre>
 </body>
 </html>
