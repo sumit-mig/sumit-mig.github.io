@@ -616,5 +616,71 @@ say_hello()
         sorted(d.items(), key=lambda x: x[1]) #value
         sorted(d.items(), key=lambda x: x[0]) #key
     </code></pre>
+
+<h4>EM algorithm</h4>
+Convert the probablity into a an expectation and then use Jenson's inquality. z is hidden variable.
+<p>
+    \( \log p(x; \theta) = \log \sum_z p(x, z; \theta) \)
+  </p>
+  <p>
+    \( = \log \sum_z \frac{Q(z)}{Q(z)} p(x, z; \theta) \)
+  </p>
+  <p>
+    \( = \log E_{z \sim Q} \left[ \frac{p(x, z; \theta)}{Q(z)} \right] \)
+  </p>
+  <p>
+    \( \geq E_{z \sim Q} \left[ \log \frac{p(x, z; \theta)}{Q(z)} \right] \)
+  </p>
+  <p>
+    \( = \text{ELBO}(x; Q, \theta) \)
+  </p>
+  <h5>Corollary</h5>
+  <p>
+    \( \log p(x; \theta) = \text{ELBO}(x; Q, \theta) \iff Q(z) = p(z | x; \theta) \)
+  </p>
+  <h5>Additional Equations</h5>
+  <p>
+    \( E_{z \sim Q} [g(z)] = \sum_z Q(z) g(z) \)
+  </p>
+  <p>
+    \( g(z) = \frac{p(x, z; \theta)}{Q(z)} \)
+  </p>
+
+  <h5>EM Algorithm Steps</h5>
+  <p>Randomly initialize \( \theta \)</p>
+  <p><b>Loop till convergence</b></p>
+  <ul>
+    <li><b>E-Step</b>: For each \( i \)</li>
+    <ul>
+      <li>\( Q_i(z) := P(z^{(i)} | x^{(i)}; \theta) \)</li>
+    </ul>
+    <li><b>M-Step</b></li>
+    <ul>
+      <li>\( \theta := \arg \max_\theta \sum_{i=1}^n \text{ELBO}(x^{(i)}; \theta) \)</li>
+      <li>\( = \arg \max_\theta \sum_{i=1}^n \sum_{z} Q_i(z) \log \frac{P(x, z; \theta)}{Q_i(z)} \)</li>
+    </ul>
+  </ul>
+
+  <h4>Beta function equation:</h4>
+  <p>
+      \[
+      \mathrm{B}(\alpha_{1},\alpha_{2},\ldots \alpha_{n}) = \frac{\Gamma(\alpha_{1}) \, \Gamma(\alpha_{2}) \cdots \Gamma(\alpha_{n})}{\Gamma(\alpha_{1} + \alpha_{2} + \cdots + \alpha_{n})}
+      \]
+  </p>
+  <p>
+    \[
+    \mathrm{B}(z_{1}, z_{2}) = \int_{0}^{1} t^{z_{1}-1} (1-t)^{z_{2}-1} \, dt
+    \]
+  </p>
+  <p>
+    \[
+        \mathrm{B}(z_{1}, z_{2}) = \frac{\Gamma(z_{1}) \, \Gamma(z_{2})}{\Gamma(z_{1} + z_{2})}
+        \]
+  </p>
+  <p>
+    \[
+    f(x; a, b) = \frac{x^{a-1} (1-x)^{b-1}}{B(a,b)} = \frac{\Gamma(a+b)}{\Gamma(a) \Gamma(b)} x^{a-1} (1-x)^{b-1}
+    \]
+</p>
 </body>
 </html>
