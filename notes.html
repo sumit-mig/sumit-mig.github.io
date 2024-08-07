@@ -682,5 +682,13 @@ Convert the probablity into a an expectation and then use Jenson's inquality. z 
     f(x; a, b) = \frac{x^{a-1} (1-x)^{b-1}}{B(a,b)} = \frac{\Gamma(a+b)}{\Gamma(a) \Gamma(b)} x^{a-1} (1-x)^{b-1}
     \]
 </p>
+<h4>Inspect a code (find location of a function from where it is called) </h4>
+x=model.classify_batch(signal)
+how to find the location of this function?
+<pre><code>
+    import inspect
+    # Assuming `model.classify_batch` is a method
+    print(inspect.getsourcefile(model.classify_batch))
+</code></pre>
 </body>
 </html>
