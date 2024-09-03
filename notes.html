@@ -690,5 +690,34 @@ how to find the location of this function?
     # Assuming `model.classify_batch` is a method
     print(inspect.getsourcefile(model.classify_batch))
 </code></pre>
+<h4>Custom functions in app script</h4>
+<pre>
+    <code>
+        function onOpen() {
+            var ui = SpreadsheetApp.getUi();
+            ui.createMenu('Sumit Menu')
+              .addItem('Insert the date', 'insertDate')
+              .addToUi();
+          }
+          
+          /**
+           * Multiplies the input value by 2.
+           *
+           * @param {number} input The value to multiply.
+           * @return The input multiplied by 2.
+           * @customfunction
+           */
+          function DOUBLE(input) {
+            return input * 2;
+          }
+          
+          function insertDate() {
+            var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+            // var cell = sheet.getRange('B2');
+            var cell = sheet.getActiveRange(); 
+            cell.setValue(new Date());
+          }
+    </code>
+</pre>
 </body>
 </html>
