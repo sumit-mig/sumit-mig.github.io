@@ -719,5 +719,96 @@ how to find the location of this function?
           }
     </code>
 </pre>
+
+
+<h4>Monte Carlo Estimation</h4>
+
+<h5>1. Identify the Expectation or Integral</h5>
+<p>
+    Let's say you want to compute the average (expectation) of some function \( f(x) \) over a probability distribution \( p(x) \). Mathematically, this looks like:
+</p>
+<p>
+\[
+\mathbb{E}_{p(x)}[f(x)] = \int f(x) p(x) \, dx
+\]
+</p>
+<p>
+    This is the expected value of \( f(x) \) under the distribution \( p(x) \).
+</p>
+
+<h5>2. Draw Random Samples</h5>
+<p>
+    Instead of solving the integral directly, you draw a number of random samples \( x_1, x_2, \dots, x_n \) from the distribution \( p(x) \). These samples represent possible values from the distribution.
+</p>
+
+<h5>3. Evaluate the Function</h5>
+<p>
+    For each sample \( x_i \), you compute the value of the function \( f(x_i) \). This gives you a bunch of values \( f(x_1), f(x_2), \dots, f(x_n) \).
+</p>
+
+<h5>4. Take the Average</h5>
+<p>
+    Once you have evaluated the function for all the samples, you compute the average of these values. This average is your Monte Carlo estimate:
+</p>
+<p>
+\[
+\mathbb{E}_{p(x)}[f(x)] \approx \frac{1}{n} \sum_{i=1}^{n} f(x_i)
+\]
+</p>
+<p>
+    This average gives you an approximation of the true expectation.
+</p>
+
+
+</h4>
+
+<h4> Log derivative trick</h4>
+<p>
+    \[
+    \nabla_\phi \log q (z, \phi) = \frac{ \nabla_\phi q (z, \phi) }{q (z, \phi) } 
+    \]
+
+    <p>We start with the gradient of the probability distribution \( q_\phi(z) \):</p>
+    <p>
+    \[
+    \nabla_\phi q_\phi(z) = q_\phi(z) \nabla_\phi \log q_\phi(z)
+    \]
+    </p>
+
+    <p>We want to approximate:</p>
+    <p>
+    \[
+    \nabla_\phi \mathbb{E}_{q_\phi(z)}[f(z)] = \nabla_\phi \int f(z) q_\phi(z) \, dz
+    \]
+    </p>
+
+    <p>Using the log-derivative trick, we apply the identity:</p>
+    <p>
+    \[
+    \nabla_\phi q_\phi(z) = q_\phi(z) \nabla_\phi \log q_\phi(z)
+    \]
+    </p>
+
+    <p>Thus, the expression becomes:</p>
+    <p>
+    \[
+    \nabla_\phi \int f(z) q_\phi(z) \, dz = \int f(z) q_\phi(z) \nabla_\phi \log q_\phi(z) \, dz
+    \]
+    </p>
+
+    <p>Now, recognizing that \( q_\phi(z) \) is the probability density, we can re-express this integral as an expectation:</p>
+    <p>
+    \[
+    \nabla_\phi \mathbb{E}_{q_\phi(z)}[f(z)] = \mathbb{E}_{q_\phi(z)} \left[ f(z) \nabla_\phi \log q_\phi(z) \right]
+    \]
+    </p>
+
+    <p>### Interpretation:</p>
+
+    <p>The gradient of the expectation \( \nabla_\phi \mathbb{E}_{q_\phi(z)}[f(z)] \) is now written as the expectation of \( f(z) \) multiplied by the gradient of the log-probability \( \log q_\phi(z) \). This step is crucial because it moves the gradient operator inside the expectation, making it feasible to estimate this expression using Monte Carlo sampling.</p>
+
+
+
+    
 </body>
 </html>
