@@ -807,8 +807,24 @@ how to find the location of this function?
 
     <p>The gradient of the expectation \( \nabla_\phi \mathbb{E}_{q_\phi(z)}[f(z)] \) is now written as the expectation of \( f(z) \) multiplied by the gradient of the log-probability \( \log q_\phi(z) \). This step is crucial because it moves the gradient operator inside the expectation, making it feasible to estimate this expression using Monte Carlo sampling.</p>
 
+<h4>kernel Density estimation using Parzen window</h4>
 
+Imagine you have a bunch of little candles (representing data points). If you light each candle, the flame spreads out a bit (that’s the kernel). Now, if you stand back, you’ll see that the overall glow of all the candles shows where most of the candles are grouped (this is the KDE). The size of each flame (bandwidth) affects how smooth the glow looks.
 
-    
+In summary, the Parzen window in KDE helps you smooth out data points by putting little curves over them and combining them to estimate the shape of the data distribution. The width of the curve controls how smooth or detailed the estimate will be.
+Instead of using bars like in a histogram, KDE uses smooth curves to show the distribution.
+
+In kernel density estimation (KDE), the term "Parzen window" (sometimes called a Parzen–Rosenblatt window) refers to a non-parametric technique used for estimating the probability density function (PDF) of a random variable. It's essentially a method of smoothing data to generate a continuous distribution from discrete data points.
+<p>
+    \[
+    \widehat{f}_{h}(x) = \frac{1}{n} \sum_{i=1}^{n} K_{h}(x - x_{i}) = \frac{1}{nh} \sum_{i=1}^{n} K \left( \frac{x - x_{i}}{h} \right)
+    \]
+    </p>
+
+    Where \( K \) is the kernel — a non-negative function — and \( h > 0 \) is a smoothing parameter called the bandwidth or simply width. A kernel with subscript \( h \) is called the scaled kernel and is defined as:
+<p>
+\[
+K_h(x) = \frac{1}{h} K\left( \frac{x}{h} \right)
+\]
 </body>
 </html>
