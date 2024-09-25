@@ -807,6 +807,98 @@ how to find the location of this function?
 
     <p>The gradient of the expectation \( \nabla_\phi \mathbb{E}_{q_\phi(z)}[f(z)] \) is now written as the expectation of \( f(z) \) multiplied by the gradient of the log-probability \( \log q_\phi(z) \). This step is crucial because it moves the gradient operator inside the expectation, making it feasible to estimate this expression using Monte Carlo sampling.</p>
 
+
+<h4>Jacobian</h4>
+
+<p>If you have a transformation from <span id="epsilon">ε</span> to <span id="z">z</span> given by:</p>
+<div>
+    $$ z = g_{\phi}(\epsilon, x) $$
+</div>
+
+<p>For a transformation from <span id="epsilon">ε</span> to <span id="z">z</span>:</p>
+<div>
+    $$ d z = |J| \, d \epsilon $$
+</div>
+
+<h4>Reparameterization technique</h4>
+<p>
+    \[z = g_{\phi}(\epsilon, x)
+    \]
+    </p>    
+
+
+    <h2>Change of Variables Formula Proof</h2>
+
+    <p>Given a deterministic transformation \( z = g_\phi(\epsilon, x) \), the probability densities of \( z \) and \( \epsilon \) are related by the formula:</p>
+
+    <div>
+        $$ q_\phi(z|x) = p(\epsilon) \left| \det \left( \frac{\partial z}{\partial \epsilon} \right) \right| $$
+    </div>
+
+    <h3>Step-by-Step Proof</h3>
+
+    <h4>Step 1: Change of Variables Theorem</h4>
+    <p>
+        The change of variables formula in probability theory states that if we apply a transformation \( z = g_\phi(\epsilon, x) \), then the probability density must satisfy:
+    </p>
+
+    <div>
+        $$ q_\phi(z|x) dz = p(\epsilon) d\epsilon $$
+    </div>
+
+    <p>This states that the probability mass in the \( z \)-space is equal to the probability mass in the \( \epsilon \)-space.</p>
+
+    <h4>Step 2: Jacobian Matrix and Volume Transformation</h4>
+    <p>
+        To account for how small changes in \( \epsilon \) propagate to changes in \( z \), we compute the <strong>Jacobian matrix</strong>, which is defined as:
+    </p>
+
+    <div>
+        $$ J = \frac{\partial z}{\partial \epsilon} $$
+    </div>
+
+    <p>
+        The Jacobian matrix captures the partial derivatives of the components of \( z \) with respect to \( \epsilon \). The volume elements transform as:
+    </p>
+
+    <div>
+        $$ dz = \left| \det \left( \frac{\partial z}{\partial \epsilon} \right) \right| d\epsilon $$
+    </div>
+
+    <p>This means the volume element in the \( z \)-space is scaled by the absolute value of the Jacobian determinant.</p>
+
+    <h4>Step 3: Apply the Change of Variables Formula</h4>
+    <p>Now we can substitute the expression for \( dz \) into the change of variables formula:</p>
+
+    <div>
+        $$ q_\phi(z|x) \left| \det \left( \frac{\partial z}{\partial \epsilon} \right) \right| d\epsilon = p(\epsilon) d\epsilon $$
+    </div>
+
+    <p>This shows how the probability densities are related through the transformation.</p>
+
+    <h4>Step 4: Solve for \( q_\phi(z|x) \)</h4>
+    <p>We can cancel the \( d\epsilon \) terms on both sides of the equation, leaving:</p>
+
+    <div>
+        $$ q_\phi(z|x) \left| \det \left( \frac{\partial z}{\partial \epsilon} \right) \right| = p(\epsilon) $$
+    </div>
+
+    <p>Finally, solving for \( q_\phi(z|x) \) gives us the desired result:</p>
+
+    <div>
+        $$ q_\phi(z|x) = p(\epsilon) \left| \det \left( \frac{\partial \epsilon}{\partial z} \right) \right| $$
+    </div>
+
+    <h3>Conclusion</h3>
+    <p>
+        This proof demonstrates how the probability density function transforms under a deterministic mapping using the change of variables formula. The Jacobian determinant accounts for the scaling of the volume element when moving from the auxiliary variable \( \epsilon \) to the transformed variable \( z \).
+    </p>
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
 <h4>kernel Density estimation using Parzen window</h4>
 
 Imagine you have a bunch of little candles (representing data points). If you light each candle, the flame spreads out a bit (that’s the kernel). Now, if you stand back, you’ll see that the overall glow of all the candles shows where most of the candles are grouped (this is the KDE). The size of each flame (bandwidth) affects how smooth the glow looks.
@@ -826,5 +918,24 @@ In kernel density estimation (KDE), the term "Parzen window" (sometimes called a
 \[
 K_h(x) = \frac{1}{h} K\left( \frac{x}{h} \right)
 \]
+
+<h4>MethodType in python usage</h4>
+<pre><code>
+class Configurable:
+    def __init__(self, mode):
+        self.mode = mode
+    
+    def process(self):
+        return "Default processing"
+
+def special_processing(self):
+    return f"Processing in {self.mode} mode"
+
+obj = Configurable("test")
+print(obj.process()) ## Output: Default processing
+obj.process = MethodType(special_processing, obj)
+
+print(obj.process())  # Output: Processing in test mode
+</code></pre>
 </body>
 </html>
