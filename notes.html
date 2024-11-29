@@ -945,5 +945,29 @@ If you want to enable pdb in espnet2
 <pre><code>
     git checkout -b <new-branch-name> origin/<remote-branch>
     </code></pre>
+
+<h4>Python fundamentals</h4>
+<ul>
+    <li>Mutable versus immutable</li>
+<li>Strings are immutable. 
+    <pre> 
+    message = "This is a string"
+    message[0] = 'p' # Error
+</pre> </li>
+<li>Lists are mutable</li>
+<li>Tuples are immutable</li>
+<pre>
+    # Example with a mutable list
+    lst = [1, 2, 3]
+    print(f"ID before change: {id(lst)}")
+    lst.append(4)
+    print(f"ID after change: {id(lst)}")  # ID will not change because the list is mutable
+    
+    # Example with an immutable tuple
+    tup = (1, 2, 3)
+    print(f"ID before change: {id(tup)}")
+    tup = tup + (4,)  # Creating a new tuple, not modifying the original
+    print(f"ID after change: {id(tup)}")  # ID will change because the tuple is immutable</pre>
+</ul>
 </body>
 </html>
