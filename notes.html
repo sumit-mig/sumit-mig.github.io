@@ -579,6 +579,7 @@ Example: Writing Regular expression ab*cd+e
         <pre><code>
     fstdraw --isymbols=ascii.syms -portrait teens.fst | dot -Tpng -Gdpi=300 > teens_high_res.png
         </code></pre>
+    <a href="https://www.openfst.org/twiki/bin/view/FST/FstExamples">FST files</a>
 
 <h4>arguments in python</h4>
 <pre><code>
@@ -968,6 +969,13 @@ If you want to enable pdb in espnet2
     print(f"ID before change: {id(tup)}")
     tup = tup + (4,)  # Creating a new tuple, not modifying the original
     print(f"ID after change: {id(tup)}")  # ID will change because the tuple is immutable</pre>
+
+<li>Decorators: A decorator is a function that accepts a function and returns a function</li>
+<pre>
+    def compose(f,g,x):
+        return f(g(x))
+    compose(print, len, "hello world")
+</pre>
 </ul>
 </body>
 </html>
