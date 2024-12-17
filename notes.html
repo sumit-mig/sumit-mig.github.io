@@ -976,6 +976,41 @@ If you want to enable pdb in espnet2
         return f(g(x))
     compose(print, len, "hello world")
 </pre>
+<li> dataclass decorator:</li>
+<pre>
+    from dataclasses import dataclass 
+    @dataclass
+    class ExampleClass():
+        """A class to using dataclass decorator to create a class without init method"""
+        title: str
+        description: str
+
+    example = ExampleClass("Dataclass", "A class without init method")
+    print(example)
+    print(example.title)
+</pre>
+<li>Staticmethod decorator</li>
+<pre>
+    class ExampleClass:
+        def __init__(self, name, age):
+            self.name = name
+            self.age = age
+        @staticmethod
+        def example_method(age):
+            print("This is a static method, no need of self")
+            print(f"Age is {age}")
+    
+    ExampleClass.example_method(25)
+<li> Get attribute in python</li>
+    <pre>
+        class Person:
+        def __init__(self, name):
+            self.name = name
+
+        p = Person('sumit')
+        print(getattr(p, 'name', 'new'))  # Output: 'sumit'
+
+    </pre>
 </ul>
 </body>
 </html>
