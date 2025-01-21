@@ -1015,6 +1015,143 @@ If you want to enable pdb in espnet2
         print(getattr(p, 'name', 'new'))  # Output: 'sumit'
 
     </pre>
+    
 </ul>
+<h4>Understanding Pynini</h4>
+<pre><code>
+    import pynini
+
+    ###
+    # Example 1: Composing two FSTs
+    fst = pynini.union("dog", "cat", "mouse")
+    t = pynini.accep("dog")
+    
+    # Perform the composition
+    result = t @ fst
+    # Method 1: Print as a string if it's an acceptor
+    if result.string():
+        print("Result (as string):", result.string())
+    
+    # # Method 2: Iterate over paths and print
+    # Iterate over paths using list()
+    for path in result.paths().items():
+        
+        print("Input:", path[0])
+        print("Output:", path[1])
+    
+    ###
+    # Example 2: Composing two FSTs
+    union_fst = pynini.union("hello", "world")
+    print(pynini.compose("hello", union_fst).num_states() > 0)  # True
+    print(pynini.compose("world", union_fst).num_states() > 0)  # True
+    print(pynini.compose("other", union_fst).num_states() > 0)  # False
+    
+    ### 
+    # Example 3: Composing two FSTs
+    fst_union = pynini.union("apple", "banana", "cherry")
+    fst_union.draw("union_fst.dot", title="Union Example")
+    
+    #### 
+    # Equivalent Notation: The | operator is a shorthand for pynini.union
+    fst_union = pynini.union("dog", "cat")
+    fst_union_alt = pynini.accep("dog") | pynini.accep("cat")
+    
+    
+    #### 
+    # Example 4: Transducer
+    import pynini
+    
+    # Define a transducer that replaces 'a' with 'b' and 'c' with 'd'
+    fst = pynini.cross("a", "b") | pynini.cross("c", "d")
+    test_input = "c"  # or "c"
+    
+    test_output = pynini.compose(test_input, fst)
+    print(test_output.string())
+    
+    
+    
+    #### 
+    
+    import pynini
+    
+    # Define a transducer that replaces 'a' with 'b' and 'c' with 'd'
+    fst = pynini.cross("a", "b") | pynini.cross("c", "d")
+    
+    # Use closure to handle multiple occurrences of 'c'
+    transducer = pynini.closure(fst)
+    
+    # Input string with multiple 'c's
+    test_input = "a"
+    
+    # Apply the transducer
+    test_output = pynini.compose(test_input, transducer)
+    
+    # Print the output string
+    print(test_output.string())  # Expected output: 'ddddd'
+    
+    
+    
+    ###
+    import pynini
+    # Define a list of mappings (input -> output)
+    mapping = [("hello", "hi"), ("world", "earth")]
+    # Create a transducer using string_map
+    fst = pynini.string_map(mapping)
+    # Test the transducer
+    input_str = "world"
+    output_str = pynini.compose(input_str, fst).string()
+    print(output_str)  # Output: 'hi earth'
+    
+    
+    ###
+    import pynini
+    
+    # Define a list of mappings (input -> output)
+    mapping = [("hello", "hi"), ("world", "earth")]
+    
+    # Create a transducer using string_map
+    fst = pynini.string_map(mapping)
+    
+    # Test the transducer with a multi-word string
+    input_str = "hello world"
+    
+    # Split the input string into words
+    words = input_str.split()
+    
+    # Apply the transducer to each word
+    transformed_words = []
+    for word in words:
+        word_fst = pynini.accep(word)  # Create an acceptor for each word
+        transformed_word_fst = pynini.compose(word_fst, fst)  # Apply the transducer
+        transformed_word_str = transformed_word_fst.string()  # Convert back to string
+        transformed_words.append(transformed_word_str)
+    
+    # Join the transformed words back into a single string
+    output_str = " ".join(transformed_words)
+    print(output_str)  # Should output: 'hi earth'
+    
+    ###
+    import pynini
+    # Create the transducer that defines the rewrite rule
+    rewrite_rule = pynini.cross("a", "b")
+    # Define the left and right contexts
+    left_context = pynini.accep("x")  # 'x' must precede 'a'
+    right_context = pynini.accep("y")  # 'y' must follow 'a'
+    chars = ([chr(i) for i in range(1, 91)] + 
+             ["\[", "\\", "\]"] + 
+             [chr(i) for i in range(94, 256)])
+    # Apply the context-dependent rewrite rule
+    sigma_star = pynini.string_map(chars).closure()
+    output_fst = pynini.cdrewrite(rewrite_rule, left_context, right_context, sigma_star)
+    # Define the input string
+    input_fst = pynini.accep("Sumitxay")
+    output = pynini.compose(input_fst, output_fst).string()
+    # Convert the output FST to a string and print it
+    print(output)  # Should output "xby" because "a" is replaced by "b" when surrounded by "x" and "y"
+    
+    ####
+    
+    
+</code> </pre>   
 </body>
 </html>
