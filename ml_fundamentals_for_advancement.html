@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GAN Loss Functions</title>
+
+<!-- MathJax for LaTeX rendering -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    line-height: 1.6;
+}
+h1, h2, h3 {
+    color: #2c3e50;
+}
+code {
+    background: #f4f4f4;
+    padding: 5px;
+    display: block;
+    overflow-x: auto;
+}
+pre {
+    background: #f4f4f4;
+    padding: 10px;
+}
+hr {
+    margin: 30px 0;
+}
+</style>
+</head>
+
+<body>
+
+<h1>GAN Loss Functions (All in One)</h1>
+
+<p><b>min G max D - in a nutshell</b></p>
+
+<ul>
+<li><b>1 → Real data</b></li>
+<li><b>0 → Fake (generated) data</b></li>
+<li>For real data x: D(x) → 1</li>
+<li>For fake data G(z): D(G(z)) → 0</li>
+</ul>
+
+<p><b>Interpretation:</b> D(·) outputs a probability (between 0 and 1) of being real.</p>
+
+<h2>1. Original GAN (Minimax)</h2>
+
+<p>
+$$
+\min_G \max_D V(D, G) =
+\mathbb{E}_{x \sim p_{\text{data}}}[\log D(x)] +
+\mathbb{E}_{z \sim p_z}[\log(1 - D(G(z)))]
+$$
+</p>
+
+<ul>
+<li>D(x) large → log D(x) is large</li>
+<li>D(G(z)) small → log(1 − D(G(z))) is large</li>
+</ul>
+
+<h3>Step 1: Update Discriminator</h3>
+
+<p>
+$$
+\max_D \mathbb{E}_{x}[\log D(x)] +
+\mathbb{E}_{z}[\log(1 - D(G(z)))]
+$$
+</p>
+
+<p>
+$$
+\mathcal{L}_D =
+- \mathbb{E}_{x}[\log D(x)]
+- \mathbb{E}_{z}[\log(1 - D(G(z)))]
+$$
+</p>
+
+<h3>Step 2: Update Generator</h3>
+
+<p><b>(a) Minimax:</b></p>
+<p>
+$$
+\mathcal{L}_G =
+\mathbb{E}_{z}[\log(1 - D(G(z)))]
+$$
+</p>
+
+<p><b>(b) Non-saturating:</b></p>
+<p>
+$$
+\mathcal{L}_G =
+- \mathbb{E}_{z}[\log D(G(z))]
+$$
+</p>
+
+<hr>
+
+<h2>PyTorch Example</h2>
+
+<pre><code>
+criterion = nn.BCELoss()
+
+for epoch in range(num_epochs):
+    for batch_idx, (real, _) in enumerate(loader):
+        real = real.view(-1, 784).to(device)
+        batch_size = real.shape[0]
+        
+        noise = torch.randn(batch_size, z_dim).to(device)
+        fake = gen(noise)
+
+        disc_real = disc(real).view(-1)
+        lossD_real = criterion(disc_real, torch.ones_like(disc_real))
+
+        disc_fake = disc(fake).view(-1)
+        lossD_fake = criterion(disc_fake, torch.zeros_like(disc_fake))
+
+        lossD = (lossD_real + lossD_fake) / 2
+
+        disc.zero_grad()
+        lossD.backward(retain_graph=True)
+        opt_disc.step()
+
+        output = disc(fake).view(-1)
+        lossG = criterion(output, torch.ones_like(output))
+
+        gen.zero_grad()
+        lossG.backward()
+        opt_gen.step()
+</code></pre>
+
+<hr>
+
+<h2>5. Least Squares GAN (LSGAN)</h2>
+
+<p>
+$$
+\mathcal{L}_D =
+\frac{1}{2} \mathbb{E}[(D(x) - 1)^2] +
+\frac{1}{2} \mathbb{E}[(D(G(z)))^2]
+$$
+</p>
+
+<p>
+$$
+\mathcal{L}_G =
+\frac{1}{2} \mathbb{E}[(D(G(z)) - 1)^2]
+$$
+</p>
+
+<hr>
+
+<h2>6. Wasserstein GAN (WGAN)</h2>
+
+<p>
+$$
+\mathcal{L}_D =
+- \mathbb{E}[D(x)] + \mathbb{E}[D(G(z))]
+$$
+</p>
+
+<p>
+$$
+\mathcal{L}_G =
+- \mathbb{E}[D(G(z))]
+$$
+</p>
+
+<hr>
+
+<h2>7. WGAN-GP</h2>
+
+<p>
+$$
+\mathcal{L}_D =
+- \mathbb{E}[D(x)] + \mathbb{E}[D(G(z))] +
+\lambda \mathbb{E}_{\hat{x}}
+[(||\nabla_{\hat{x}} D(\hat{x})||_2 - 1)^2]
+$$
+</p>
+
+<p>
+$$
+\mathcal{L}_G =
+- \mathbb{E}[D(G(z))]
+$$
+</p>
+
+<hr>
+
+<h1>Pix2Pix GAN</h1>
+
+<p>Conditional GAN: image → image</p>
+
+<h2>Loss</h2>
+
+<p>
+$$
+\mathcal{L}_{GAN}(G, D) =
+\mathbb{E}_{x,y}[\log D(x,y)] +
+\mathbb{E}_{x}[\log(1 - D(x, G(x)))]
+$$
+</p>
+
+<p>
+$$
+\mathcal{L}_{L1} =
+\mathbb{E}_{x,y}[|y - G(x)|]
+$$
+</p>
+
+<p>
+$$
+G^* = \arg \min_G \max_D
+\mathcal{L}_{GAN} + \lambda \mathcal{L}_{L1}
+$$
+</p>
+
+<h2>Summary</h2>
+
+<ul>
+<li>Input: x</li>
+<li>Output: G(x)</li>
+<li>Discriminator: (x,y) vs (x,G(x))</li>
+<li>GAN loss → realism</li>
+<li>L1 loss → correctness</li>
+</ul>
+
+<p><b>Intuition:</b> Generate a realistic image that matches the input.</p>
+
+</body>
+</html>
