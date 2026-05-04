@@ -230,6 +230,40 @@ $$
 </ul>
 
 <p><b>Intuition:</b> Generate a realistic image that matches the input.</p>
+<h1>Variational Autoencoder (VAE)</h1>
 
+<h2>Gaussian Mixture Model (GMM)</h2>
+In Gaussian Mixture Models, we assume that the data is generated from a mixture of several Gaussian distributions. \enter
+Each Gaussian component is associated with a latent variable z that indicates which component generated the data point x.
+For example: MNIST digits can be modeled as a mixture of 10 Gaussians, where each Gaussian corresponds to a digit class (0-9).
+
+<p>
+$$
+z \to x
+$$
+</p>
+
+<p>
+$$
+p(x) = \sum_z p(x,z) = \sum_z p(z) p(x|z) = \sum_{k=1}^{K} p(z = k) \mathcal{N}(x; \mu_k, \Sigma_k)
+$$
+</p>
+Mean and std of each Gaussian component are learned during training using the Expectation-Maximization (EM) algorithm.
+
+In case of VAE, we assume infinite Gaussian components, which leads to a continuous latent space.
+
+<p>
+$$
+Z \sim \mathcal{N}(0, I)
+$$
+</p>
+
+<p>
+$$
+p(x|z) = \mathcal{N}(x; \mu(z), \sigma(z))
+$$
+</p>
+
+where μ and σ are outputs of the decoder network and are learned during neural network training.
 </body>
 </html>
