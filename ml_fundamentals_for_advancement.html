@@ -265,5 +265,69 @@ $$
 </p>
 
 where μ and σ are outputs of the decoder network and are learned during neural network training.
+
+    <h2>GMM vs VAE: Understanding the Analogy</h2>
+
+<p>
+In Gaussian Mixture Models (GMM), we assume that data is generated from a finite number of Gaussian components.
+Each component is selected by a discrete latent variable <b>z</b>.
+</p>
+
+<p>
+In contrast, Variational Autoencoders (VAE) use a <b>continuous latent space</b>, where:
+</p>
+
+<ul>
+<li>z is sampled from a Gaussian distribution: z ~ N(0, I)</li>
+<li>z is multi-dimensional (z ∈ R<sup>d</sup>)</li>
+<li>Each value of z defines a different Gaussian in data space</li>
+</ul>
+
+<h3>GMM Formulation</h3>
+
+<p>
+p(x) = Σ<sub>k=1</sub><sup>K</sup> p(z = k) N(x; μ<sub>k</sub>, Σ<sub>k</sub>)
+</p>
+
+<ul>
+<li>Finite number of components (K)</li>
+<li>Discrete latent variable</li>
+<li>Each component has fixed parameters (μ, Σ)</li>
+</ul>
+
+<h3>VAE Formulation</h3>
+
+<p>
+p(x) = ∫ p(z) p(x | z) dz
+</p>
+
+<ul>
+<li>Infinite (continuous) components</li>
+<li>z is continuous and multi-dimensional</li>
+<li>μ(z) and σ(z) are learned via neural networks</li>
+</ul>
+
+<h3>Key Intuition</h3>
+
+<ul>
+<li>GMM → finite set of Gaussian clusters</li>
+<li>VAE → continuous space of Gaussian distributions</li>
+<li>Each point in latent space defines a different Gaussian</li>
+</ul>
+
+<h3>Geometric View</h3>
+
+<ul>
+<li>GMM learns separate clusters in data space</li>
+<li>VAE learns a smooth latent manifold</li>
+<li>Nearby z values produce similar outputs</li>
+</ul>
+
+<h3>Important Note</h3>
+
+<p>
+VAE is not literally a GMM with infinite components, but it can be interpreted as a 
+continuous mixture model where integration replaces summation.
+</p>
 </body>
 </html>
